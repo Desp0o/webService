@@ -11,7 +11,7 @@ public enum NetworkError: Error {
 }
 
 public protocol NetworkServiceProtocol {
-    func fetchData<T: Codable>(
+    static func fetchData<T: Codable>(
         urlString: String,
         completion: @escaping @Sendable (Result<T, NetworkError>) -> Void
     )
@@ -21,7 +21,7 @@ public final class NetworkService: NetworkServiceProtocol {
     
     public init() { }
     
-    public func fetchData<T: Codable>(urlString: String, completion: @escaping @Sendable (Result<T, NetworkError>) -> Void) {
+    static public func fetchData<T: Codable>(urlString: String, completion: @escaping @Sendable (Result<T, NetworkError>) -> Void) {
         let url = URL(string: urlString)
         
         guard let url else {
