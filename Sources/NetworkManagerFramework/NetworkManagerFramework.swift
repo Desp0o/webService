@@ -10,7 +10,7 @@ public enum NetworkError: Error {
     case decodeError(error: Error)
 }
 
-@available(macOS 12.0, *)
+@available(iOS 15, macOS 12.0, *)
 public protocol NetworkServiceProtocol {
     func fetchData<T: Codable>(urlString: String) async throws -> T
 }
@@ -19,7 +19,7 @@ public final class NetworkService: NetworkServiceProtocol {
     
     public init() { }
     
-    @available(macOS 12.0, *)
+    @available(iOS 15, macOS 12.0, *)
     public func fetchData<T: Codable>(urlString: String) async throws -> T {
         guard let url = URL(string: urlString) else {
             throw NetworkError.invalidURL
