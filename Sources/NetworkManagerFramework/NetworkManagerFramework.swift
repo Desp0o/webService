@@ -12,7 +12,7 @@ public enum NetworkError: Error {
 
 @available(iOS 15, macOS 12.0, *)
 public protocol NetworkServiceProtocol {
-    func fetchData<T: Codable>(urlString: String) async throws -> T
+    func fetchData<T: Codable>(urlString: String, headers: [String: String]?) async throws -> T
 }
 
 public final class NetworkService: NetworkServiceProtocol {
@@ -20,12 +20,18 @@ public final class NetworkService: NetworkServiceProtocol {
     public init() { }
     
     @available(iOS 15, macOS 12.0, *)
-    public func fetchData<T: Codable>(urlString: String) async throws -> T {
+    public func fetchData<T: Codable>(urlString: String, headers: [String: String]? = nil) async throws -> T {
         guard let url = URL(string: urlString) else {
             throw NetworkError.invalidURL
         }
         
-        let urlRequest = URLRequest(url: url)
+        var urlRequest = URLRequest(url: url)
+        
+        if let headers = headers {
+            for (key, value) in headers {
+                urlRequest.setValue(value, forHTTPHeaderField: key)
+            }
+        }
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
