@@ -14,7 +14,7 @@
 
 import Foundation
 
-protocol PostServiceProtocol {
+public protocol PostServiceProtocol {
     func postData<T: Codable, U: Codable>(
         urlString: String,
         headers: [String: String]?,
