@@ -24,6 +24,9 @@ public protocol PostServiceProtocol {
 
 @available(iOS 15.0, *)
 public final class PostService: PostServiceProtocol {
+    
+    public init() { }
+    
     public func postData<T: Codable, U: Codable>(
         urlString: String,
         headers: [String: String]? = nil,
