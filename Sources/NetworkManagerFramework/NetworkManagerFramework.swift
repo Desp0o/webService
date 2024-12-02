@@ -45,7 +45,6 @@ public final class NetworkService: NetworkServiceProtocol {
         
         do {
             let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             let fetchedData = try decoder.decode(T.self, from: data)
             return fetchedData
