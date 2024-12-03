@@ -68,7 +68,6 @@ public final class PostService: PostServiceProtocol {
         
         do {
             let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
             let responseData = try decoder.decode(U.self, from: data)
             return responseData
         } catch {
