@@ -45,14 +45,16 @@ public final class PostService: PostServiceProtocol {
             }
         }
         
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if headers?["Content-Type"] == nil {
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
         
         do {
             let encoder = JSONEncoder()
-            encoder.keyEncodingStrategy = .convertToSnakeCase
             let jsonData = try encoder.encode(body)
             urlRequest.httpBody = jsonData
         } catch {
+            print("Encoding Error: \(error)")
             throw NetworkError.decodeError(error: error)
         }
         
@@ -63,6 +65,8 @@ public final class PostService: PostServiceProtocol {
         }
         
         guard (200...299).contains(httpResponse.statusCode) else {
+            print("HTTP Error: Status code \(httpResponse.statusCode)")
+            print("Raw response: \(String(data: data, encoding: .utf8) ?? "No response body")")
             throw NetworkError.statusCodeError(statusCode: httpResponse.statusCode)
         }
         
@@ -71,6 +75,8 @@ public final class PostService: PostServiceProtocol {
             let responseData = try decoder.decode(U.self, from: data)
             return responseData
         } catch {
+            print("Decoding Error: \(error)")
+            print("Raw response: \(String(data: data, encoding: .utf8) ?? "Invalid response")")
             throw NetworkError.decodeError(error: error)
         }
     }
