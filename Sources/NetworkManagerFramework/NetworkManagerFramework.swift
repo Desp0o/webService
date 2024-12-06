@@ -40,6 +40,8 @@ public final class NetworkService: NetworkServiceProtocol {
         }
         
         guard (200...299).contains(httpResponse.statusCode) else {
+            print("HTTP Error: Status code \(httpResponse.statusCode)")
+            print("Raw response: \(String(data: data, encoding: .utf8) ?? "No response body")")
             throw NetworkError.statusCodeError(statusCode: httpResponse.statusCode)
         }
         
