@@ -50,3 +50,35 @@ private func fetchRequest() async throws {
   }
 }
 ```
+
+
+## POST method
+```swift
+import NetworkManagerFramework
+
+final class MyClass {
+  private let postService: PostServiceProtocol
+  
+  init(postService: PostServiceProtocol = PostService()) {
+    self.postService = postService
+  }
+  
+  func login() {
+    Task {
+      do {
+        try await requestLogin()
+      } catch {
+        print(error.localizedDescription)
+      }
+    }
+  }
+  
+  private func requestLogin() async throws {
+    let api = EndpointsEnum.loginEndpoint.rawValue
+    let body = LoginModel(email: "test@email.com", password: "testPassword")
+    
+    let response: loginResponse = try await postService.postData(urlString: api, headers: nil, body: body)
+    print(response)
+  }
+}
+```
