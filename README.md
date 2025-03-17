@@ -61,6 +61,7 @@ final class MyClass {
   
   init(postService: PostServiceProtocol = PostService()) {
     self.postService = postService
+    login()
   }
   
   func login() {
@@ -82,3 +83,38 @@ final class MyClass {
   }
 }
 ```
+
+
+## PUT method
+```swift
+final class MyClass {
+  private let putService: PutServiceProtocol
+
+  init(putService: PutServiceProtocol = PutService()) {
+    self.putService = putService
+    
+    updateUserInfo()
+  }
+  
+  func updateUserInfo() {
+    Task {
+      do {
+        try await requestUpdate()
+      } catch {
+        print(error.localizedDescription)
+      }
+    }
+  }
+  
+  private func requestUpdate() async throws {
+    let token = "testToken"
+    let api = "testApiEndpoint"
+    let headers = ["Authorization": "Bearer \(token)"]
+    let body = UpdateModel(firstName: "Tornike", lastName: "Despotashvili")
+    
+    let response: UpdateModel = try await putService.putData(urlString: api, headers: headers, body: body)
+    print(response)
+  }
+}
+```
+
