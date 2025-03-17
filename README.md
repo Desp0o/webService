@@ -118,3 +118,38 @@ final class MyClass {
 }
 ```
 
+
+## Delete method
+```swift
+import NetworkManagerFramework
+
+final class MyClass {
+  private let deletionService: DeleteMethodPorotocol
+
+  init(    deletionService: DeleteMethodPorotocol = DeletionService()) {
+    self.deletionService = deletionService
+
+    deleteUserProfile()
+  }
+  
+  func deleteUserProfile() {
+    Task {
+      do {
+        try await requestDelete()
+      } catch {
+        print(error.localizedDescription)
+      }
+    }
+  }
+  
+  private func requestDelete() async throws {
+    let token = "testToken"
+    let api = "testApiEndpoint"
+    let headers = ["Authorization": "Bearer \(token)"]
+    
+    let _: () = try await deletionService.deleteData(urlString: api, headers: headers)
+  }
+}
+```
+
+
