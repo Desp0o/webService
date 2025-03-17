@@ -39,18 +39,6 @@ private func fetchRequest() async throws {
   }
 }
 ```
-## GET method with headers
-```swift
-private func fetchRequest() async throws {
-    let api = "https://jsonplaceholder.typicode.com/users"
-    let headers = ["Authorization": "Bearer \(token)"]
-    
-    let response: [User] = try await fetchService.fetchData(urlString: api, headers: headers)
-    print(response)
-  }
-}
-```
-
 
 ## POST method
 ```swift
